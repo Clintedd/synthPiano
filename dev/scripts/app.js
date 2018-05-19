@@ -1,6 +1,19 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import Tone from './Tone';
+import firebase from 'firebase';
+
+// Initialize Firebase
+const config = {
+  apiKey: "AIzaSyDw1af242YK2wHXmm5Szq7Xn7SEk2LwRwM",
+  authDomain: "synthmaker-79483.firebaseapp.com",
+  databaseURL: "https://synthmaker-79483.firebaseio.com",
+  projectId: "synthmaker-79483",
+  storageBucket: "",
+  messagingSenderId: "451126430933"
+};
+firebase.initializeApp(config);
+
 
 
 class App extends React.Component {
@@ -20,7 +33,6 @@ class App extends React.Component {
           }
         })
         .toMaster()
-
       }
       this.onChange = this.onChange.bind(this);
       this.onChangeOscillator = this.onChangeOscillator.bind(this);
@@ -154,6 +166,16 @@ class App extends React.Component {
             <input type="checkbox" onChange={this.onChange} id="D5" />
           </div>
           <div>
+            <input type="checkbox" onChange={this.onChange} id="C5" />
+            <input type="checkbox" onChange={this.onChange} id="C5" />
+            <input type="checkbox" onChange={this.onChange} id="C5" />
+            <input type="checkbox" onChange={this.onChange} id="C5" />
+            <input type="checkbox" onChange={this.onChange} id="C5" />
+            <input type="checkbox" onChange={this.onChange} id="C5" />
+            <input type="checkbox" onChange={this.onChange} id="C5" />
+            <input type="checkbox" onChange={this.onChange} id="C5" />
+          </div>
+          <div>
             Sawtooth<input type="radio" name="oscillator" value="sawtooth" onChange={this.onChangeOscillator}/>
             Sine<input type="radio" name="oscillator" value="sine" onChange={this.onChangeOscillator}/>
             Triangle<input type="radio" name="oscillator" value="triangle" onChange={this.onChangeOscillator}/>
@@ -166,6 +188,9 @@ class App extends React.Component {
           </div>
           <div>
             Sustain<input type="range" min="1" max="10" onChange={this.onChangeSustain}/>
+          </div>
+          <div>
+            <input type="submit" value="Another One"/>
           </div>
         </div>
       )
