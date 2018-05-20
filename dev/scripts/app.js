@@ -21,8 +21,8 @@ class App extends React.Component {
       super()
       this.state ={
         synth: new Tone.Synth({
-          oscillator: {
-            type: 'sawtooth'
+          Oscillator: {
+            Type: ''
           },
           envelope: {
             attack: 0.01,
@@ -74,10 +74,12 @@ class App extends React.Component {
     }
     onChangeOscillator(e) {
       e.preventDefault
-      console.log(e.target.value);
       const type = e.target.value;
       this.state.synth.oscillator.type = type;
-      console.log(type);
+
+      const dbRef = firebase.database().ref();
+
+      dbRef.push(type);
       // this.setState({
       //   oscillatorType: this.state.synth.oscillator.type;
       // })
@@ -203,6 +205,7 @@ class App extends React.Component {
                 Sawtooth<input type="radio" name="oscillator" value="sawtooth" onChange={this.onChangeOscillator}/>
                 Sine<input type="radio" name="oscillator" value="sine" onChange={this.onChangeOscillator}/>
                 Triangle<input type="radio" name="oscillator" value="triangle" onChange={this.onChangeOscillator}/>
+                Square<input type="radio" name="oscillator" value="square" onChange={this.onChangeOscillator} />
               </div>
               <div>
                 Attack<input type="range" min="2" max="40" onChange={this.onChangeAttack}/>
@@ -224,6 +227,7 @@ class App extends React.Component {
                 Sawtooth<input type="radio" name="oscillator" value="sawtooth" onChange={this.onChangeOscillator} />
                 Sine<input type="radio" name="oscillator" value="sine" onChange={this.onChangeOscillator} />
                 Triangle<input type="radio" name="oscillator" value="triangle" onChange={this.onChangeOscillator} />
+                Square<input type="radio" name="oscillator" value="square" onChange={this.onChangeOscillator} />
               </div>
               <div>
                 Attack<input type="range" min="2" max="40" onChange={this.onChangeAttack} />
@@ -233,6 +237,9 @@ class App extends React.Component {
               </div>
               <div>
                 Sustain<input type="range" min="1" max="10" onChange={this.onChangeSustain} />
+              </div>
+              <div>
+                Release<input type="range" min="1" max="100" onChange={this.onChangeRelease} />
               </div>
               <input type="submit" value="Another One"/>
             </form>
