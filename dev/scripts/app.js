@@ -42,7 +42,7 @@ class App extends React.Component {
       this.onChangeDecay = this.onChangeDecay.bind(this);
       this.onChangeSustain = this.onChangeSustain.bind(this);
       this.onChangeRelease = this.onChangeRelease.bind(this);
-      
+      this.addSynth = this.addSynth.bind(this);
 
       
 
@@ -63,7 +63,7 @@ class App extends React.Component {
     }
     componentDidMount() {
       firebase.database().ref().on('value', (res) => {
-        console.log(res.val());
+        // console.log(res.val());
       })
     }
     onChange(e) {
@@ -73,7 +73,7 @@ class App extends React.Component {
       
     }
     onChangeOscillator(e) {
-      e.preventDefault
+      e.preventDefault;
       const type = e.target.value;
       this.state.synth.oscillator.type = type;
 
@@ -92,6 +92,7 @@ class App extends React.Component {
       // })
     }
     onChangeAttack(e) {
+      e.preventDefault;
       const attackValue = e.target.value / 1000
       if (attackValue < 0.005) {
         this.state.synth.envelope.attack = 0.005
@@ -102,24 +103,32 @@ class App extends React.Component {
       console.log(attackValue);
     }
     onChangeDecay(e) {
+      e.preventDefault;
       const decayValue = e.target.value / 100
       this.state.synth.envelope.decay = decayValue
       console.log(decayValue);
     }
     onChangeSustain(e) {
+      e.preventDefault;
       const sustainValue = e.target.value
       this.state.synth.envelope.sustain = sustainValue
       console.log(sustainValue);
     }
     onChangeRelease(e) {
+      e.preventDefault;
       const releaseValue = e.target.value / 100
       this.state.synth.envelope.release = releaseValue
       console.log(releaseValue);
     }
+    addSynth(e) {
+      e.preventDefault;
+      console.log('submitted');
+      console.log(this);
+    }
     render() {
       return (
-        <div>{/* main div*/}
-          <div>
+        <div className="mainDiv">{/* main div*/}
+          <div className="defaultSynth">
             <div>
               <input type="checkbox" onChange={this.onChange} id="C6" />
               <input type="checkbox" onChange={this.onChange} id="C6" />
@@ -221,10 +230,11 @@ class App extends React.Component {
               </div>
             </div>
           </div>
-          <div>
-            <form>
+          <div className="newSynthForm">
+            <form onSubmit={this.addSynth}>
+              <h3>Add Another One</h3>
               <div>
-                Sawtooth<input type="radio" name="oscillator" value="sawtooth" onChange={this.onChangeOscillator} />
+                Sawtooth<input type="radio" name="oscillator" value="sawtooth" onChange={this.onChangeOscillator} ref={ref => this.oscillatorChoice = ref}/>
                 Sine<input type="radio" name="oscillator" value="sine" onChange={this.onChangeOscillator} />
                 Triangle<input type="radio" name="oscillator" value="triangle" onChange={this.onChangeOscillator} />
                 Square<input type="radio" name="oscillator" value="square" onChange={this.onChangeOscillator} />
