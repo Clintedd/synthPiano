@@ -23,22 +23,25 @@ class App extends React.Component {
         synth: new Tone.Synth({
           oscillator: {
             type: 'sawtooth'
-          }
-          ,
+          },
           envelope: {
             attack: 0.01,
+            // attackValues: [],
             decay: 0.1,
+
             sustain: 1,
             release: 0.3
           }
         })
         .toMaster()
+        
       }
       this.onChange = this.onChange.bind(this);
       this.onChangeOscillator = this.onChangeOscillator.bind(this);
       this.onChangeAttack = this.onChangeAttack.bind(this);
       this.onChangeDecay = this.onChangeDecay.bind(this);
       this.onChangeSustain = this.onChangeSustain.bind(this);
+      this.onChangeRelease = this.onChangeRelease.bind(this);
       
 
       
@@ -58,19 +61,33 @@ class App extends React.Component {
       //   synths[2].oscillator.type: 'sawtooth';
       // })
     }
-
     componentDidMount() {
-
+      firebase.database().ref().on('value', (res) => {
+        console.log(res.val());
+      })
     }
     onChange(e) {
       const boxId = e.target.id;
 
       this.state.synth.triggerAttackRelease(boxId, '32n');
+      
     }
     onChangeOscillator(e) {
       e.preventDefault
+      console.log(e.target.value);
       const type = e.target.value;
       this.state.synth.oscillator.type = type;
+      console.log(type);
+      // this.setState({
+      //   oscillatorType: this.state.synth.oscillator.type;
+      // })
+      // this.setState({
+      //   synth: new Tone.Synth({
+      //     oscillator: {
+      //       type: e.target.value
+      //     }
+      //   })
+      // })
     }
     onChangeAttack(e) {
       const attackValue = e.target.value / 1000
@@ -92,105 +109,133 @@ class App extends React.Component {
       this.state.synth.envelope.sustain = sustainValue
       console.log(sustainValue);
     }
+    onChangeRelease(e) {
+      const releaseValue = e.target.value / 100
+      this.state.synth.envelope.release = releaseValue
+      console.log(releaseValue);
+    }
     render() {
       return (
-        <div>
+        <div>{/* main div*/}
           <div>
-            <input type="checkbox" onChange={this.onChange} id="C6" />
-            <input type="checkbox" onChange={this.onChange} id="C6" />
-            <input type="checkbox" onChange={this.onChange} id="C6" />
-            <input type="checkbox" onChange={this.onChange} id="C6" />
-            <input type="checkbox" onChange={this.onChange} id="C6" />
-            <input type="checkbox" onChange={this.onChange} id="C6" />
-            <input type="checkbox" onChange={this.onChange} id="C6" />
-            <input type="checkbox" onChange={this.onChange} id="C6" />
+            <div>
+              <input type="checkbox" onChange={this.onChange} id="C6" />
+              <input type="checkbox" onChange={this.onChange} id="C6" />
+              <input type="checkbox" onChange={this.onChange} id="C6" />
+              <input type="checkbox" onChange={this.onChange} id="C6" />
+              <input type="checkbox" onChange={this.onChange} id="C6" />
+              <input type="checkbox" onChange={this.onChange} id="C6" />
+              <input type="checkbox" onChange={this.onChange} id="C6" />
+              <input type="checkbox" onChange={this.onChange} id="C6" />
+            </div>
+            <div>
+              <input type="checkbox" onChange={this.onChange} id="B5" />
+              <input type="checkbox" onChange={this.onChange} id="B5" />
+              <input type="checkbox" onChange={this.onChange} id="B5" />
+              <input type="checkbox" onChange={this.onChange} id="B5" />
+              <input type="checkbox" onChange={this.onChange} id="B5" />
+              <input type="checkbox" onChange={this.onChange} id="B5" />
+              <input type="checkbox" onChange={this.onChange} id="B5" />
+              <input type="checkbox" onChange={this.onChange} id="B5" />
+            </div>
+            <div>
+              <input type="checkbox" onChange={this.onChange} id="A5" />
+              <input type="checkbox" onChange={this.onChange} id="A5" />
+              <input type="checkbox" onChange={this.onChange} id="A5" />
+              <input type="checkbox" onChange={this.onChange} id="A5" />
+              <input type="checkbox" onChange={this.onChange} id="A5" />
+              <input type="checkbox" onChange={this.onChange} id="A5" />
+              <input type="checkbox" onChange={this.onChange} id="A5" />
+              <input type="checkbox" onChange={this.onChange} id="A5" />
+            </div>
+            <div>
+              <input type="checkbox" onChange={this.onChange} id="G5" />
+              <input type="checkbox" onChange={this.onChange} id="G5" />
+              <input type="checkbox" onChange={this.onChange} id="G5" />
+              <input type="checkbox" onChange={this.onChange} id="G5" />
+              <input type="checkbox" onChange={this.onChange} id="G5" />
+              <input type="checkbox" onChange={this.onChange} id="G5" />
+              <input type="checkbox" onChange={this.onChange} id="G5" />
+              <input type="checkbox" onChange={this.onChange} id="G5" />
+            </div>
+            <div>
+              <input type="checkbox" onChange={this.onChange} id="F5" />
+              <input type="checkbox" onChange={this.onChange} id="F5" />
+              <input type="checkbox" onChange={this.onChange} id="F5" />
+              <input type="checkbox" onChange={this.onChange} id="F5" />
+              <input type="checkbox" onChange={this.onChange} id="F5" />
+              <input type="checkbox" onChange={this.onChange} id="F5" />
+              <input type="checkbox" onChange={this.onChange} id="F5" />
+              <input type="checkbox" onChange={this.onChange} id="F5" />
+            </div>
+            <div>
+              <input type="checkbox" onChange={this.onChange} id="E5" />
+              <input type="checkbox" onChange={this.onChange} id="E5" />
+              <input type="checkbox" onChange={this.onChange} id="E5" />
+              <input type="checkbox" onChange={this.onChange} id="E5" />
+              <input type="checkbox" onChange={this.onChange} id="E5" />
+              <input type="checkbox" onChange={this.onChange} id="E5" />
+              <input type="checkbox" onChange={this.onChange} id="E5" />
+              <input type="checkbox" onChange={this.onChange} id="E5" />
+            </div>
+            <div>
+              <input type="checkbox" onChange={this.onChange} id="D5" />
+              <input type="checkbox" onChange={this.onChange} id="D5" />
+              <input type="checkbox" onChange={this.onChange} id="D5" />
+              <input type="checkbox" onChange={this.onChange} id="D5" />
+              <input type="checkbox" onChange={this.onChange} id="D5" />
+              <input type="checkbox" onChange={this.onChange} id="D5" />
+              <input type="checkbox" onChange={this.onChange} id="D5" />
+              <input type="checkbox" onChange={this.onChange} id="D5" />
+            </div>
+            <div>
+              <input type="checkbox" onChange={this.onChange} id="C5" />
+              <input type="checkbox" onChange={this.onChange} id="C5" />
+              <input type="checkbox" onChange={this.onChange} id="C5" />
+              <input type="checkbox" onChange={this.onChange} id="C5" />
+              <input type="checkbox" onChange={this.onChange} id="C5" />
+              <input type="checkbox" onChange={this.onChange} id="C5" />
+              <input type="checkbox" onChange={this.onChange} id="C5" />
+              <input type="checkbox" onChange={this.onChange} id="C5" />
+            </div>
+            <div>
+              <div>
+                Sawtooth<input type="radio" name="oscillator" value="sawtooth" onChange={this.onChangeOscillator}/>
+                Sine<input type="radio" name="oscillator" value="sine" onChange={this.onChangeOscillator}/>
+                Triangle<input type="radio" name="oscillator" value="triangle" onChange={this.onChangeOscillator}/>
+              </div>
+              <div>
+                Attack<input type="range" min="2" max="40" onChange={this.onChangeAttack}/>
+              </div>
+              <div>
+                Decay<input type="range" min="1" max="100" onChange={this.onChangeDecay}/>
+              </div>
+              <div>
+                Sustain<input type="range" min="1" max="10" onChange={this.onChangeSustain}/>
+              </div>
+              <div>
+                Release<input type="range" min="1" max="100" onChange={this.onChangeRelease} />
+              </div>
+            </div>
           </div>
           <div>
-            <input type="checkbox" onChange={this.onChange} id="B5" />
-            <input type="checkbox" onChange={this.onChange} id="B5" />
-            <input type="checkbox" onChange={this.onChange} id="B5" />
-            <input type="checkbox" onChange={this.onChange} id="B5" />
-            <input type="checkbox" onChange={this.onChange} id="B5" />
-            <input type="checkbox" onChange={this.onChange} id="B5" />
-            <input type="checkbox" onChange={this.onChange} id="B5" />
-            <input type="checkbox" onChange={this.onChange} id="B5" />
-          </div>
-          <div>
-            <input type="checkbox" onChange={this.onChange} id="A5" />
-            <input type="checkbox" onChange={this.onChange} id="A5" />
-            <input type="checkbox" onChange={this.onChange} id="A5" />
-            <input type="checkbox" onChange={this.onChange} id="A5" />
-            <input type="checkbox" onChange={this.onChange} id="A5" />
-            <input type="checkbox" onChange={this.onChange} id="A5" />
-            <input type="checkbox" onChange={this.onChange} id="A5" />
-            <input type="checkbox" onChange={this.onChange} id="A5" />
-          </div>
-          <div>
-            <input type="checkbox" onChange={this.onChange} id="G5" />
-            <input type="checkbox" onChange={this.onChange} id="G5" />
-            <input type="checkbox" onChange={this.onChange} id="G5" />
-            <input type="checkbox" onChange={this.onChange} id="G5" />
-            <input type="checkbox" onChange={this.onChange} id="G5" />
-            <input type="checkbox" onChange={this.onChange} id="G5" />
-            <input type="checkbox" onChange={this.onChange} id="G5" />
-            <input type="checkbox" onChange={this.onChange} id="G5" />
-          </div>
-          <div>
-            <input type="checkbox" onChange={this.onChange} id="F5" />
-            <input type="checkbox" onChange={this.onChange} id="F5" />
-            <input type="checkbox" onChange={this.onChange} id="F5" />
-            <input type="checkbox" onChange={this.onChange} id="F5" />
-            <input type="checkbox" onChange={this.onChange} id="F5" />
-            <input type="checkbox" onChange={this.onChange} id="F5" />
-            <input type="checkbox" onChange={this.onChange} id="F5" />
-            <input type="checkbox" onChange={this.onChange} id="F5" />
-          </div>
-          <div>
-            <input type="checkbox" onChange={this.onChange} id="E5" />
-            <input type="checkbox" onChange={this.onChange} id="E5" />
-            <input type="checkbox" onChange={this.onChange} id="E5" />
-            <input type="checkbox" onChange={this.onChange} id="E5" />
-            <input type="checkbox" onChange={this.onChange} id="E5" />
-            <input type="checkbox" onChange={this.onChange} id="E5" />
-            <input type="checkbox" onChange={this.onChange} id="E5" />
-            <input type="checkbox" onChange={this.onChange} id="E5" />
-          </div>
-          <div>
-            <input type="checkbox" onChange={this.onChange} id="D5" />
-            <input type="checkbox" onChange={this.onChange} id="D5" />
-            <input type="checkbox" onChange={this.onChange} id="D5" />
-            <input type="checkbox" onChange={this.onChange} id="D5" />
-            <input type="checkbox" onChange={this.onChange} id="D5" />
-            <input type="checkbox" onChange={this.onChange} id="D5" />
-            <input type="checkbox" onChange={this.onChange} id="D5" />
-            <input type="checkbox" onChange={this.onChange} id="D5" />
-          </div>
-          <div>
-            <input type="checkbox" onChange={this.onChange} id="C5" />
-            <input type="checkbox" onChange={this.onChange} id="C5" />
-            <input type="checkbox" onChange={this.onChange} id="C5" />
-            <input type="checkbox" onChange={this.onChange} id="C5" />
-            <input type="checkbox" onChange={this.onChange} id="C5" />
-            <input type="checkbox" onChange={this.onChange} id="C5" />
-            <input type="checkbox" onChange={this.onChange} id="C5" />
-            <input type="checkbox" onChange={this.onChange} id="C5" />
-          </div>
-          <div>
-            Sawtooth<input type="radio" name="oscillator" value="sawtooth" onChange={this.onChangeOscillator}/>
-            Sine<input type="radio" name="oscillator" value="sine" onChange={this.onChangeOscillator}/>
-            Triangle<input type="radio" name="oscillator" value="triangle" onChange={this.onChangeOscillator}/>
-          </div>
-          <div>
-            Attack<input type="range" min="2" max="40" onChange={this.onChangeAttack}/>
-          </div>
-          <div>
-            Decay<input type="range" min="1" max="100" onChange={this.onChangeDecay}/>
-          </div>
-          <div>
-            Sustain<input type="range" min="1" max="10" onChange={this.onChangeSustain}/>
-          </div>
-          <div>
-            <input type="submit" value="Another One"/>
+            <form>
+              <div>
+                Sawtooth<input type="radio" name="oscillator" value="sawtooth" onChange={this.onChangeOscillator} />
+                Sine<input type="radio" name="oscillator" value="sine" onChange={this.onChangeOscillator} />
+                Triangle<input type="radio" name="oscillator" value="triangle" onChange={this.onChangeOscillator} />
+              </div>
+              <div>
+                Attack<input type="range" min="2" max="40" onChange={this.onChangeAttack} />
+              </div>
+              <div>
+                Decay<input type="range" min="1" max="100" onChange={this.onChangeDecay} />
+              </div>
+              <div>
+                Sustain<input type="range" min="1" max="10" onChange={this.onChangeSustain} />
+              </div>
+              <input type="submit" value="Another One"/>
+            </form>
           </div>
         </div>
       )
