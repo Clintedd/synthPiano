@@ -23,15 +23,15 @@ class App extends React.Component {
       this.state ={
         synth: new Tone.Synth({
           Oscillator: {
-            Type: ''
+            Type: '',
+            types: []
           },
           envelope: {
             attack: 0.01,
-            // attackValues: [],
             decay: 0.1,
-
             sustain: 1,
-            release: 0.3
+            release: 0.3,
+            changes:[]
           }
         })
         .toMaster()
@@ -63,11 +63,15 @@ class App extends React.Component {
       // })
     }
     componentDidMount() {
-      const dbRef = firebase.database().ref('Type');
+      const dbRef = firebase.database().ref('types');
 
       dbRef.on('value', (snapshot) => {
         const data = snapshot.val();
-        console.log(data);
+        const typesArray = [];
+        for (let item in data) {
+          data[item].key = item;
+          typesArray.push(data[item])
+        }
       })
     }
     onChange(e) {
@@ -82,13 +86,13 @@ class App extends React.Component {
       this.state.synth.oscillator.type = type;
       
 
-      const dbRef = firebase.database().ref();
+      const dbRef = firebase.database().ref('types');
 
       dbRef.push(type);
       this.setState({
         type: type
       })
-      console.log(type);
+      // console.log(type);
     }
     onChangeAttack(e) {
       e.preventDefault;
@@ -137,9 +141,7 @@ class App extends React.Component {
     addSynth(e) {
       e.preventDefault();
       console.log('submitted');
-      console.log(this.oscillatorChoice);
       const synths = {
-
       }
     }
     render() {
@@ -228,10 +230,18 @@ class App extends React.Component {
             </div>
             <div>
               <div>
-                Sawtooth<input type="radio" name="oscillator" value="sawtooth" onChange={this.onChangeOscillator}/>
-                Sine<input type="radio" name="oscillator" value="sine" onChange={this.onChangeOscillator}/>
-                Triangle<input type="radio" name="oscillator" value="triangle" onChange={this.onChangeOscillator}/>
-                Square<input type="radio" name="oscillator" value="square" onChange={this.onChangeOscillator} />
+                <label htmlFor="">
+                  Sawtooth<input type="radio" name="oscillator" value="sawtooth" checked onChange={this.onChangeOscillator}/>
+                </label>
+                <label htmlFor="">
+                  Sine<input type="radio" name="oscillator" value="sine" onChange={this.onChangeOscillator}/>
+                </label>
+                <label htmlFor="">
+                  Triangle<input type="radio" name="oscillator" value="triangle" onChange={this.onChangeOscillator}/>
+                </label>
+                <label htmlFor="">
+                  Square<input type="radio" name="oscillator" value="square" onChange={this.onChangeOscillator} />
+                </label>
               </div>
               <div>
                 Attack<input type="range" min="2" max="40" onChange={this.onChangeAttack}/>
@@ -251,10 +261,10 @@ class App extends React.Component {
             <form onSubmit={this.addSynth}>
               <h3>Add Another One</h3>
               <div>
-                Sawtooth<input type="radio" name="oscillator" value="sawtooth" onChange={this.onChangeOscillator} ref={ref => this.oscillatorChoice = ref} sawtoothProp={this.state.type}/>
-                Sine<input type="radio" name="oscillator" value="sine" onChange={this.onChangeOscillator} ref={ref => this.oscillatorChoice= ref}/>
-                Triangle<input type="radio" name="oscillator" value="triangle" onChange={this.onChangeOscillator} ref={ref => this.oscillatorChoice = ref}/>
-                Square<input type="radio" name="oscillator" value="square" onChange={this.onChangeOscillator} ref={ref => this.oscillatorChoice = ref}/>
+                Sawtooth<input type="radio" name="oscillator" value="sawtooth" checked={this.state.synth.oscillator.type === 'sawtooth'} onChange={this.onChangeOscillator} ref={ref => this.oscillatorChoice = ref} />
+                Sine<input type="radio" name="oscillator" value="sine" checked={this.state.synth.oscillator.type === 'sine'} onChange={this.onChangeOscillator} ref={ref => this.oscillatorChoice= ref}/>
+                Triangle<input type="radio" name="oscillator" value="triangle" checked={this.state.synth.oscillator.type === 'triangle'} onChange={this.onChangeOscillator} ref={ref => this.oscillatorChoice = ref}/>
+                Square<input type="radio" name="oscillator" value="square" checked={this.state.synth.oscillator.type === 'square'} onChange={this.onChangeOscillator} ref={ref => this.oscillatorChoice = ref}/>
               </div>
               <div>
                 Attack<input type="range" min="2" max="40" onChange={this.onChangeAttack} />
@@ -272,7 +282,26 @@ class App extends React.Component {
             </form>
           </div>
           <div>
+            {/* {this.state.types.map((newSynth) =>{
+              return <NewSynth 
+                key={newSynth.key}
+                Type={newSynth.type}/>
+            })} */}
 
+
+
+
+            {/* {this.state.todos.map((todoItem) => {
+              // Here we pass and props to our TodoItem component that we want. 
+              return <TodoItem
+                key={todoItem.key}
+                task={todoItem.value}
+                user={todoItem.user}
+                firebaseKey={todoItem.key}
+                removeTodo={this.removeTodo}
+                completeTodo={this.completeTodo}
+                completed={todoItem.completed} />
+            })} */}
           </div>
         </div>
       )
